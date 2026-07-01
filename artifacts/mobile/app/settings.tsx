@@ -13,11 +13,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useOperations } from '@/contexts/OperationsContext';
 import { useColors } from '@/hooks/useColors';
+import { usePWAInstall } from '@/hooks/usePWAInstall';
 
 export default function SettingsScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { operations, deleteOperation } = useOperations();
+  const { isInstallable, isInstalled, install } = usePWAInstall();
 
   const webPadTop = Platform.OS === 'web' ? 67 : insets.top;
 
@@ -77,6 +79,22 @@ export default function SettingsScreen() {
           <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>APPEARANCE</Text>
           <Row icon="sun" label="Theme" value="System default" />
         </View>
+
+        {Platform.OS === 'web' && (isInstallable || isInstalled) && (
+          <View style={[styles.card, { backgroundColor: colors.card }]}>
+            <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>INSTALL</Text>
+            {isInstalled ? (
+              <Row icon="check-circle" label="App installed" value="Installed" />
+            ) : (
+              <Row
+                icon="download"
+                label="Install app"
+                value="Add to home screen"
+                onPress={install}
+              />
+            )}
+          </View>
+        )}
 
         <View style={[styles.card, { backgroundColor: colors.card }]}>
           <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>ABOUT</Text>
