@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "x21IYUFIot9m_1L4U3n33"
+uri = "file://artifacts/mobile/assets/images/icon.png"
+type = "image"
+title = "money manager app icon"

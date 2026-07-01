@@ -1,0 +1,16 @@
+Please fix the following UI visual bugs, input focus borders, and layout symmetry across the app:
+
+1. Fix Input Box & Search Bar Ugly White Outline Glitch:
+- In the "New/Edit Operation" screen (Amount input) and the main dashboard search bar, there is an ugly, unstyled default white rectangle outline that appears overlapping or drawing outside the rounded input box when focused or filled.
+- Please completely eliminate this browser default behavior. Apply `outline: none;` and `box-shadow: none;` on focus for both the amount text input and the search input bar. 
+- Ensure that focus states are elegant and respect the input container's actual rounded corners (border-radius), using a subtle theme-colored border or a clean soft glow instead.
+
+2. Redesign Transaction Type Selector (Adaptive Width & Modern Radius):
+- The current transaction type buttons (Income, Expense, Debt, Lent) look inconsistent and overly pill-shaped/circular.
+- Redesign them to look like modern text chips: set their width to be adaptive based on the text length (`width: fit-content` or dynamic flex sizing) so the frame wraps perfectly around the text with uniform padding (e.g., `padding: 8px 16px`).
+- Make them significantly LESS circular: change the border-radius to a clean modern rounded-corner style (e.g., `border-radius: 8px` or `10px` instead of fully pill-shaped).
+- Keep the solid theme color fill for the selected state and subtle transparent dark fill for unselected states.
+
+3. Fix Dashboard Summary Cards Font Size to be Strictly Fixed:
+- Ensure the font size of the balance amounts within the 4 summary cards (Income, Expense, Debt, Money Lent) remains completely fixed and constant at the exact same scale as when it displays "0" or "20 000".
+- Do not let the font scale down or shrink dynamically when the number grows large (like 1 000 000). Keep the text size uniform across all cards to preserve perfect visual balance, and handle overflow cleanly if a number is exceptionally long.
