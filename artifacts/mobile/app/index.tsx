@@ -13,7 +13,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import BalanceCard from '@/components/BalanceCard';
 import EmptyState from '@/components/EmptyState';
-import InstallBanner from '@/components/InstallBanner';
 import OperationItem from '@/components/OperationItem';
 import SearchBar from '@/components/SearchBar';
 import SegmentedControl from '@/components/SegmentedControl';
@@ -80,8 +79,6 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         <BalanceCard balance={allTotals.balance} />
-
-        <InstallBanner />
 
         <SegmentedControl value={filter} onChange={setFilter} />
 
