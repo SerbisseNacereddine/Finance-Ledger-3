@@ -47,8 +47,8 @@ export default function HomeScreen() {
     router.push({ pathname: '/add-operation', params: { id: op.id } });
   };
 
-  const webPadTop = Platform.OS === 'web' ? 67 : insets.top;
-  const webPadBottom = Platform.OS === 'web' ? 34 : insets.bottom;
+  const webPadTop = Platform.OS === 'web' ? 0 : insets.top;
+  const webPadBottom = Platform.OS === 'web' ? 0 : insets.bottom;
   const hasData = totals.income > 0 || totals.expense > 0 || totals.debt > 0 || totals.lent > 0;
 
   return (

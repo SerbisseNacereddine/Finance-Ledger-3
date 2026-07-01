@@ -39,7 +39,7 @@ export default function LentScreen() {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };
 
-  const webPadTop = Platform.OS === 'web' ? 67 : insets.top;
+  const webPadTop = Platform.OS === 'web' ? 0 : insets.top;
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>

@@ -122,7 +122,7 @@ export default function AddOperationScreen() {
     setShowPicker(true);
   };
 
-  const webPadTop = Platform.OS === 'web' ? 67 : insets.top;
+  const webPadTop = Platform.OS === 'web' ? 0 : insets.top;
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
