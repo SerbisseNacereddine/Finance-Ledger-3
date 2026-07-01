@@ -6,27 +6,43 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
+export type InstallState = 'installed' | 'installable' | 'ios' | 'manual' | 'native';
+
 export function usePWAInstall() {
   const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
-  const [isInstalled, setIsInstalled] = useState(false);
-  const [isInstallable, setIsInstallable] = useState(false);
+  const [installState, setInstallState] = useState<InstallState>('native');
 
   useEffect(() => {
     if (Platform.OS !== 'web') return;
 
     if (window.matchMedia('(display-mode: standalone)').matches) {
-      setIsInstalled(true);
+      setInstallState('installed');
+      return;
+    }
+
+    const ua = navigator.userAgent;
+    const isIOS = /iphone|ipad|ipod/i.test(ua);
+    if (isIOS) {
+      setInstallState('ios');
       return;
     }
 
     const handler = (e: Event) => {
       e.preventDefault();
       setPromptEvent(e as BeforeInstallPromptEvent);
-      setIsInstallable(true);
+      setInstallState('installable');
     };
 
     window.addEventListener('beforeinstallprompt', handler);
-    return () => window.removeEventListener('beforeinstallprompt', handler);
+
+    const timer = setTimeout(() => {
+      setInstallState((prev) => (prev === 'native' ? 'manual' : prev));
+    }, 2000);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler);
+      clearTimeout(timer);
+    };
   }, []);
 
   const install = async () => {
@@ -34,12 +50,16 @@ export function usePWAInstall() {
     await promptEvent.prompt();
     const { outcome } = await promptEvent.userChoice;
     if (outcome === 'accepted') {
-      setIsInstalled(true);
-      setIsInstallable(false);
+      setInstallState('installed');
       setPromptEvent(null);
     }
     return outcome === 'accepted';
   };
 
-  return { isInstallable, isInstalled, install };
+  return {
+    installState,
+    isInstallable: installState === 'installable',
+    isInstalled: installState === 'installed',
+    install,
+  };
 }

@@ -19,7 +19,7 @@ export default function SettingsScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { operations, deleteOperation } = useOperations();
-  const { isInstallable, isInstalled, install } = usePWAInstall();
+  const { installState, install } = usePWAInstall();
 
   const webPadTop = Platform.OS === 'web' ? 67 : insets.top;
 
@@ -80,18 +80,28 @@ export default function SettingsScreen() {
           <Row icon="sun" label="Theme" value="System default" />
         </View>
 
-        {Platform.OS === 'web' && (isInstallable || isInstalled) && (
+        {Platform.OS === 'web' && (
           <View style={[styles.card, { backgroundColor: colors.card }]}>
             <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>INSTALL</Text>
-            {isInstalled ? (
-              <Row icon="check-circle" label="App installed" value="Installed" />
-            ) : (
-              <Row
-                icon="download"
-                label="Install app"
-                value="Add to home screen"
-                onPress={install}
-              />
+            {installState === 'installed' && (
+              <Row icon="check-circle" label="App installed" value="Done" />
+            )}
+            {installState === 'installable' && (
+              <Row icon="download" label="Install app" value="Add to home screen" onPress={install} />
+            )}
+            {installState === 'ios' && (
+              <>
+                <Row icon="share" label="Tap the Share button" value="Safari toolbar" />
+                <View style={[styles.divider, { backgroundColor: colors.border }]} />
+                <Row icon="plus-square" label='Select "Add to Home Screen"' value="Then tap Add" />
+              </>
+            )}
+            {(installState === 'manual' || installState === 'native') && (
+              <>
+                <Row icon="chrome" label="Open in Chrome or Edge" value="On desktop or Android" />
+                <View style={[styles.divider, { backgroundColor: colors.border }]} />
+                <Row icon="download" label='Click install in address bar' value="Look for ⊕ icon" />
+              </>
             )}
           </View>
         )}
