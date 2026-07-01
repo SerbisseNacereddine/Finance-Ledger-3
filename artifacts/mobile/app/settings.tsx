@@ -19,7 +19,7 @@ export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
   const { operations, deleteOperation } = useOperations();
 
-  const webPadTop = Platform.OS === 'web' ? 0 : insets.top;
+  const webPadTop = Platform.OS === 'web' ? 16 : insets.top;
 
   const totalOps = operations.length;
 

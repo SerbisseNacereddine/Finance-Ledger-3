@@ -45,7 +45,7 @@ export default function IncomeScreen() {
     }
   };
 
-  const webPadTop = Platform.OS === 'web' ? 0 : insets.top;
+  const webPadTop = Platform.OS === 'web' ? 16 : insets.top;
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
